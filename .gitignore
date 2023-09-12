@@ -1,0 +1,10 @@
+infrastructure.code-workspace
+**/.terraform/*
+**/Brewfile.lock*
+
+*.tfstate
+*.tfstate.*
+
+*.tfvars
+*.terraform.lock
+.envrc

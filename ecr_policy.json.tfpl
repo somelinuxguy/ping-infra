@@ -1,0 +1,15 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "AllowTerraform",
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": [
+            "arn:aws:iam::${account_id}:user/terryform"
+          ]
+        },
+        "Action": "ecr:*"
+      }
+    ]
+}
