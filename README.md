@@ -29,6 +29,8 @@ Now we need to set up an AUTH method for github to use, in order for GHA to pull
 
 This will enable the jwt auth method, and then configure it for github as our issuer and our OIDC service. Then we'll need to build a role with certain configuration on it to allow our repos to assume this role when github actions is running. That role needs access to our specific vault paths, so don't forget a policy. Here we named it gha and default, so that needs to be setup properly.
 
+TODO:  script this. Even though this repo is meant to be manually run to lay the foundations, there's no good reason the below could not be flipped in to some TF or even just a bash script. Also that sub string is insecure but this is a demo so... we'll leave it alone because you are still limited by the policy to only read "ping" from vault.
+
 ```
 vault auth enable --path=jwt-gha jwt
 
