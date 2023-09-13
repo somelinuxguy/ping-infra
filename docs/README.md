@@ -1,20 +1,40 @@
-## A GitOps Project
+# A GitOps Project - The Nitty Gritty Details
 
-For fun, and to keep my skills up to date, I'm building this. Also because I take a lot from the open source community, I want to give this back to you in the hope that it will help somebody who is having a similar (never the same) problem in search of a solution.
+Now with 10% less grit, and 20% more nit!
 
-# Requirements
-1. We must not store secrets anywhere but Vault. No pipeline exposure.
-1. We must use terraform to build the basic environment. (IaC)
-1. We must trigger an app deployment via GitOps (a merge to a repository)
-1. We must not store infrastructure configuration (k8s manifests) with the application code. We are allowed to store application specific things with the app code (like Datadog monitors)
+We know from the other file that we need to build an API endpoint (simulated, to keep things easy) and that we need a robust deployment pipeline for it. 
+
+So let's dive right in to *requirements.* Any good project will have walls around it. These might be standards at your company, best practices shared among your team, or even just a few documented "wish list" items in a Jira ticket.
+
+Here are ours:
+
+## Requirements
+1. We must use modern best practices (Zero Trust?) for secrets/credentials
+1. Infrastructure as Code is an absolute requirement to help us meet automation goals, and also for excellent predictability and repeatability
+1. Use GitOps models, such as "a commit is a deploy"
+1. Use good repo design, and separation of concern
 1. It's not done unless it is tested, and monitored
 
-# How will that be accomplished?
+## The Result
+This is what we aim to achieve.
 
-Steps.
+TODO - Let's show a picture here. Everybody likes pictures.
 
-Steps.
+## The Breakdown
 
-# The Result
+Even a seemingly simple project like "Move this code in to production" is actually a series of steps. Like baking a cake, you may see the end result and never see the hundreds of little steps (ingredients, process, safety measures) that create it. It is key to break down your larger problem in to little bits. Bite sized tasks.
 
-Let's show a picture here.
+You ~~move~~ build a mountain one stone at a time. If you think about [a well formed SDLC](https://aws.amazon.com/what-is/sdlc/) you will probably see this list and think it looks pretty familiar.
+
+### Planning
+- [x] Write up READMEs with a reasonable explanation of what we are doing, or will do
+
+### Infrastructure
+- [ ] 
+
+### Application
+
+### Deployment
+
+### Monitoring
+

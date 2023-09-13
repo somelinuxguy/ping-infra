@@ -1,13 +1,17 @@
-## A GitOps Project
+# The details
 
-# Requirements
-1. We must not store secrets anywhere but Vault. No pipeline exposure.
-1. We must use terraform to build the basic environment. (IaC)
-1. We must trigger an app deployment via GitOps (a merge to a repository)
-1. We must not store infrastructure configuration (k8s manifests) with the application code. We are allowed to store application specific things with the app code (like Datadog monitors)
-1. It's not done unless it is tested, and monitored
+Usually I would document all of this as a wiki of some kind, showing steps taken, commands run, etc.
 
-Start with setting up Vault at Hashicorp, makes it easier if they manage it for us!
+To make this all public, we'll document it in Markdown instead.
+
+
+## Let's sign up for HashiCorp and AWS
+
+Start with setting up Vault at Hashicorp, makes it easier if they manage it for us! Go to their website and set up an account, then set up a tiny Vault plan. You do not need HVN peering or anything fancy for this demo.
+
+Now go set up a basic AWS account. Again, nothing fancy is required for your account.
+
+### Vault
 
 Done. Here is our vault public URL
 https://vault-cluster-public-vault-aa91234.2f79cd88.z1.hashicorp.cloud:8200

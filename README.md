@@ -2,14 +2,15 @@
 
 For fun, and to keep my skills up to date, I'm building this. Also because I take a lot from the open source community, I want to give this back to you in the hope that it will help somebody who is having a similar (never the same) problem in search of a solution.
 
-# Requirements
-1. We must use modern and zero trust approaches for security.
-1. Use infrastructure as code. Avoid ClickOps.
-1. Take a GitOps approach to deploying newly merged code.
-1. We must not store infrastructure configuration (k8s manifests) with the application code. We are allowed to store application specific things with the app code (like Datadog monitors)
-1. It's not done unless it is tested, and monitored
+# The problem statement
 
-# How will that be accomplished?
+Let us pretend that a customer needs an API endpoint to return some data. Writing the endpoint is pretty easy, it is just a basic RESTful endpoint that when queried (with a GET) will return something fun and useful.
+
+There are requirements around this though: It has to run "in the cloud" and it has to use modern DevOps practices.
+
+Sounds easy at first, just write a basic app and throw it in the cloud. But it isn't as easy as it seems if you want to make this meet the requirement of Modern DevOps Practices.
+
+# The Battle Plan
 
 To keep the README short, please visit the [docs directory here](https://github.com/somelinuxguy/ping-infra/docs)
 
