@@ -27,7 +27,9 @@ Even a seemingly simple project like "Move this code in to production" is actual
 You ~~move~~ build a mountain one stone at a time. If you think about [a well formed SDLC](https://aws.amazon.com/what-is/sdlc/) you will probably see this list and think it looks pretty familiar.
 
 ### Planning
-- [x] Write up READMEs with a reasonable explanation of what we are doing, or will do
+- Write up READMEs with a reasonable explanation of what we are doing, or will do
+- Select components based on a few criteria primarily : Value/Relevance to the project, Cost, Easy to use/implement, Fun
+- This is a demo, fun is actually important
 
 ### Infrastructure
 - Signup for Vault
