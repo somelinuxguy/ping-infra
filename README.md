@@ -12,7 +12,7 @@ Sounds easy at first, just write a basic app and throw it in the cloud. But it i
 
 # The Battle Plan
 
-To keep the README short, please visit the [docs directory here](https://github.com/somelinuxguy/ping-infra/docs)
+To keep the README short, please visit the [docs directory here](https://github.com/somelinuxguy/ping-infra/tree/main/docs)
 
 # The Result
 
