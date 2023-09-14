@@ -43,7 +43,7 @@ vault write auth/jwt-gha/role/gha -<<EOF
 "role_type": "jwt",
 "bound_subject": "",
 "bound_claims": {
-"sub": ["repo:somelinuxguy/*:ref:refs/*"]
+"sub": ["repo:somelinuxguy/*:ref:refs/*", "repo:somelinuxguy/*:environment:*"]
 },
 "bound_claims_type": "glob",
 "bound_audiences": "https://github.com/somelinuxguy",
