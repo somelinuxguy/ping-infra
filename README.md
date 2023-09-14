@@ -10,6 +10,9 @@ There are requirements around this though: It has to run "in the cloud" and it h
 
 Sounds easy at first, just write a basic app and throw it in the cloud. But it isn't as easy as it seems if you want to make this meet the requirement of Modern DevOps Practices.
 
+We are using ping-app for this. I've written that, and the exciting CI/CD stuff to go with it, and [you can find it here](https://github.com/somelinuxguy/ping-app)
+
+
 # The Battle Plan
 
 To keep the README short, please visit the [docs directory here](https://github.com/somelinuxguy/ping-infra/tree/main/docs)
