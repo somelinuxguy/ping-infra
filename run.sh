@@ -39,5 +39,9 @@ DoTheThing() {
     sleep 300
     
     #now apply terraform from the ingress
+    #I hate this work around... find a better way
+    cd ingress 
+    terraform workspace select dev
     terraform plan
+    terraform apply
   }
