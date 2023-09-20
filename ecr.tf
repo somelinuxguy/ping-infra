@@ -1,3 +1,4 @@
+# This is off for demo usage, as security scanning can be "expensive"
 resource "aws_ecr_repository" "sect-ecr" {
   for_each = local.ecr_repos
   name     = each.key
