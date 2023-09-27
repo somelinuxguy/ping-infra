@@ -1,4 +1,5 @@
 #/bin/bash
+export KUBE_CONFIG_PATH=~/.kube/config
 echo "Hello! I depend on two prequisites you need to setup prior to using me."
 echo "Ensure you have set up: "
 echo "aws-cli"
@@ -35,13 +36,14 @@ DoTheThing() {
     terraform workspace select dev
     terraform plan
     terraform apply
+    echo "Sleeping for 5 minutes to let EKS finish..."
     # strange as it seems, it takes time for EKS to finish building
-    sleep 300
+    # sleep 300
     
     #now apply terraform from the ingress
     #I hate this work around... find a better way
-    cd ingress 
-    terraform workspace select dev
-    terraform plan
-    terraform apply
+    # cd ingress 
+    # terraform workspace select dev
+    # terraform plan
+    # terraform apply
   }
