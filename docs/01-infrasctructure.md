@@ -28,39 +28,7 @@ Now we need to set up an AUTH method for github to use, in order for GHA to pull
 
 This will enable the jwt auth method, and then configure it for github as our issuer and our OIDC service. Then we'll need to build a role with certain configuration on it to allow our repos to assume this role when github actions is running. That role needs access to our specific vault paths, so don't forget a policy. Here we named it gha and default, so that needs to be setup properly.
 
-** TODO: ** Script this. Even though this repo is meant to be manually run to lay the foundations, there's no good reason the below could not be flipped in to some TF or even just a bash script. Also that sub string is insecure but this is a demo so... we'll leave it alone because you are still limited by the policy to only read "ping" from vault.
-
-```
-vault auth enable --path=jwt-gha jwt
-
-vault write auth/jwt-gha/config \
-oidc_discovery_url="https://token.actions.githubusercontent.com" \
-bound_issuer="https://token.actions.githubusercontent.com" \
-default_role="nil"
-
-vault write auth/jwt-gha/role/gha -<<EOF
-{
-"role_type": "jwt",
-"bound_subject": "",
-"bound_claims": {
-"sub": ["repo:somelinuxguy/*:ref:refs/*", "repo:somelinuxguy/*:environment:*"]
-},
-"bound_claims_type": "glob",
-"bound_audiences": "https://github.com/somelinuxguy",
-"user_claim": "workflow",
-"policies": "gha, default",
-"ttl": "1h"
-}
-EOF
-
-# Only read /ping/* vault paths
-vault policy write gha - <<EOF
-path "/ping/*" {
-  capabilities = ["read"]
-}
-EOF
-```
-We can now set this aside. Vault is set up, it contains no secrets but we'll get there later.
+You'll find this in the run.sh file, which I created to make this a little easier.
 
 ### Terraform
 
@@ -124,6 +92,15 @@ You'll also probably see this at some point after the first run:
  Error: The configmap "aws-auth" does not exist
 
 This is a known problem and the terraform fix (from the huge post in Github issues) is to just run `export KUBE_CONFIG_PATH=~/.kube/config; terraform plan; terraform apply` again and you're usually fine. I just did.
+
+I also noticed during a destroy and re-apply test that I got an error because the ECR repo didn't exist yet when the Policy tried to apply:
+
+```
+Error: creating ECR Lifecycle Policy (ping): RepositoryNotFoundException: The repository with name 'ping' does not exist in the registry
+```
+
+a simple re-run of terraform apply fixed it.
+
 
 Let's test:
 ```
