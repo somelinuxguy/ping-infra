@@ -34,21 +34,17 @@ DoVault() {
 
 DoTerraform() {
     terraform init
+    terraform workspace new dev
     terraform workspace select dev
     terraform plan
     terraform apply
     if [ $? -ne 0 ]; then
-        echo "ERROR - Vault returned a non-Zero exit code"
-        echo "This is often expected in a brand new AWS account. The fix: Try running it again in 5 minutes."
+        echo "ERROR - Terraform apply broke."
+        echo "This is often expected in a brand new AWS account. The fix: "
+        echo "1. Set up kubectl locally, now that you have a cluster." 
+        echo "2. Try running this again in 5 minutes."
         exit 1
     fi
-
-    # apply terraform for an ingress controller
-    # TODO - I hate this work around... find a better way
-    # cd ingress 
-    # terraform workspace select dev
-    # terraform plan
-    # terraform apply
 }
 
 # Check if required environment variables are set

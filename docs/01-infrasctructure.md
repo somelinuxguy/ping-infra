@@ -20,6 +20,7 @@ export VAULT_NAMESPACE="admin"
 
 vault secrets list -detailed
 ```
+
 If you get output listing your default vault paths, then you know you're all set.
 
 ### Allow github to talk to your Vault
@@ -87,19 +88,20 @@ aws eks update-kubeconfig --region us-east-1 --name sect-dev --alias sect
 Added new context sect to /Users/zombie/.kube/config
 ```
 
-** Here's the woops **
-You'll also probably see this at some point after the first run:
- Error: The configmap "aws-auth" does not exist
+** Gotchas **
+You may see these errors, here is how to fix them:
 
-This is a known problem and the terraform fix (from the huge post in Github issues) is to just run `export KUBE_CONFIG_PATH=~/.kube/config; terraform plan; terraform apply` again and you're usually fine. I just did.
+1. ` Error: The configmap "aws-auth" does not exist`
 
-I also noticed during a destroy and re-apply test that I got an error because the ECR repo didn't exist yet when the Policy tried to apply:
+This is a known problem and the terraform fix (from the huge post in Github issues) is to just run:
 
-```
-Error: creating ECR Lifecycle Policy (ping): RepositoryNotFoundException: The repository with name 'ping' does not exist in the registry
-```
+ `export KUBE_CONFIG_PATH=~/.kube/config; terraform plan; terraform apply` again and you're usually fine. I just did.
 
-a simple re-run of terraform apply fixed it.
+2. `Error: creating ECR Lifecycle Policy (ping): RepositoryNotFoundException: The repository with name 'ping' does not exist in the registry`
+
+I also noticed during a destroy and re-apply test that I got an error because the ECR repo didn't exist yet when the Policy tried to apply.
+
+A simple re-run of terraform apply fixed it, because the ECR repo does now exist, and the policy will apply correctly.
 
 
 Let's test:
@@ -136,4 +138,6 @@ kubectl logs aws-load-balancer-controller-6896d945d7-hwxx7 -n kube-system
 
 Nice! We appear to be set up.
 
-Let's GHA this repo! Just kidding. This repo is for laying foundations and should be run manually. Your app on the other hand, should be pipelined and automated. Now that you have a working AWS infrastructure, let's move on to the app. Join me over in 02-application.md wont you?
+Let's GHA this repo! Just kidding. This repo is for laying foundations and should be run manually. Your app on the other hand, should be pipelined and automated. Now that you have a working AWS infrastructure, let's move on to the app. Join me in the next section:
+
+[02-Application.md](https://github.com/somelinuxguy/ping-infra/blob/main/docs/02-application.md)
