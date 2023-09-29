@@ -10,6 +10,8 @@ TASK=$1
 
 DoVaultGHA() {
     echo "Setting up vault for GHA..."
+    echo "Ignore 'already exists' errors, operations are not idempotent."
+    echo
     vault auth enable --path=jwt-gha jwt
 
     vault write auth/jwt-gha/config \
@@ -35,7 +37,7 @@ DoVaultGHA() {
 DoVaultK8s() {
     echo "This requires that you've run terraform and scaffolded your infra. If you haven't this will fail."
     echo "Setting up vault for kubernetes..."
-    echo "Ignore 'already exists' errors, operations are not idempotent."
+
     # Note: You might need to modify these for --context if you have many contexts or havent set a default with kubectl
     export ISSUER="$(kubectl get --raw /.well-known/openid-configuration | jq -r '.issuer')"
     echo "Issuer: $ISSUER"
