@@ -8,7 +8,7 @@ echo "vault"
 
 TASK=$1
 
-DoVault() {
+DoVaultGHA() {
     echo "Setting up vault for GHA..."
     vault auth enable --path=jwt-gha jwt
 
@@ -17,10 +17,10 @@ DoVault() {
     bound_issuer="https://token.actions.githubusercontent.com" \
     default_role="nil"
 
-    vault write auth/jwt-gha/role/gha -policy=@gha_role.json
+    vault write auth/jwt-gha/role/gha @gha_role.json
 
     # Only read /ping/* vault paths
-    vault policy write gha -policy=@gha_policy.policy
+    vault policy write gha gha_policy.policy
 
     echo "Vault is set up."
     echo "Verifying..."
@@ -28,6 +28,43 @@ DoVault() {
     vault read auth/jwt-gha/role/gha
     if [ $? -ne 0 ]; then
         echo "ERROR - Vault returned a non-Zero exit code"
+        exit 1
+    fi
+}
+
+DoVaultK8s() {
+    echo "This requires that you've run terraform and scaffolded your infra. If you haven't this will fail."
+    echo "Setting up vault for kubernetes..."
+    echo "Ignore 'already exists' errors, operations are not idempotent."
+    # Note: You might need to modify these for --context if you have many contexts or havent set a default with kubectl
+    export ISSUER="$(kubectl get --raw /.well-known/openid-configuration | jq -r '.issuer')"
+    echo "Issuer: $ISSUER"
+
+    curl $ISSUER/.well-known/openid-configuration
+    if [ $? -ne 0 ]; then
+        echo "ERROR - A get of the ISSUER URL failed. Kubernetes may not be up and reachable from here."
+        exit 1
+    fi
+    
+    kubectl create clusterrolebinding oidc-reviewer  \
+    --clusterrole=system:service-account-issuer-discovery \
+    --group=system:unauthenticated
+
+    vault auth enable --path=jwt-ping jwt
+    vault write auth/jwt-ping/config oidc_discovery_url="${ISSUER}"
+
+    # Note: The policy here should be app specific but to save time we are recycling the gha policy as it would be identical
+    vault write auth/jwt-ping/role/ping \
+    role_type="jwt" \
+    bound_audiences="https://kubernetes.default.svc" \
+    user_claim="sub" \
+    bound_subject="system:serviceaccount:ping-app:vault-auth" \
+    policies="gha, default" \
+    ttl="1h"
+
+    vault read auth/jwt-ping/role/ping
+    if [ $? -ne 0 ]; then
+        echo "ERROR - Failed to validate role."
         exit 1
     fi
 }
@@ -59,15 +96,19 @@ if [ -z "$VAULT_ADDR" ] || [ -z "$VAULT_NAMESPACE" ] || [ -z "$VAULT_TOKEN" ] ||
     exit 1
 else
     case "$TASK" in
-        "vault")
-            DoVault
+        "vault-gha")
+            DoVaultGHA
             ;;
         "terraform")
             DoTerraform
             ;;
+        "vault-k8s")
+            DoVaultK8s
+            ;;
         *)
-            echo "Usage -"
-            echo "Run me with a parameter like 'run.sh vault' or 'run.sh terraform'"
+            echo "Usage:"
+            echo "Run me with a parameter:"
+            echo "vault-gha terraform vault-k8s"
             echo 
             ;;
     esac
