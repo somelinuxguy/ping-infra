@@ -20,6 +20,6 @@ We have only one job: Build and Push
 
 This checks out code, sets up environment, builds the code (npm install), then runs tests. If they pass then we continue to build a docker image from the Dockerfile in the source repo, and check it in to ECR with the tag "latest".
 
-It is agreed that using "latest" is actually a bad idea, string comparisons of the tag from *this image* versus *that image* might not result in your deployment updating because the string is identical. So use good practices and tag your image with the commit hash and then use that.
+It is agreed that using "latest" is actually a bad idea, string comparisons of the tag from *this image* versus *that image* might not result in your deployment updating because the string is identical. So use good practices and tag your image with the commit hash and then use that to deploy with.
 
 For speed here, I'm just going to use "latest" but you should change this when going to do production.
