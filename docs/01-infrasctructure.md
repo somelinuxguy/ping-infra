@@ -55,6 +55,8 @@ aws sts get-caller-identity
 
 Nice. So that all works and we verified the account.
 
+TODO:  add creation of S3 bucket for state. Skipped that here for some reason.
+
 Moving on... let's write a bunch of Terraform. We need the following:
 VPC - a network
 Subnets in the VPC - we'll use the standard 3 - public, private, storage
